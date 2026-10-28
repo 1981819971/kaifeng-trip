@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>汴京秋行 · 开封六日攻略 2.0</title>
+<meta name="description" content="三弦闲 & 神神神的开封国庆六日攻略：万岁山 × 清明上河园 × 学生票省钱学 × 公摊记账 × AI 向导">
+<meta name="theme-color" content="#faf6ec">
+<link rel="manifest" href="manifest.webmanifest?v=20260923h">
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=20260914e">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+<link rel="stylesheet" href="css/tokens.css?v=20260923h">
+<link rel="stylesheet" href="css/base.css?v=20260923h">
+<link rel="stylesheet" href="css/components.css?v=20260923h">
+<link rel="stylesheet" href="css/sections.css?v=20260923h">
+<link rel="stylesheet" href="css/blocks.css?v=20260923h">
+<link rel="stylesheet" href="css/v2.css?v=20260923h">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>document.documentElement.dataset.cur = "plan";</script>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <span class="topbar-logo"><i class="seal-dot">汴</i>汴京秋行</span>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="打开目录">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</header>
+
+<aside class="sidenav" id="sidenav" aria-label="块内目录">
+  <div class="sn-head">
+    <span class="seal-dot">汴</span><b>汴京秋行</b>
+    <button class="sn-close" id="snClose" type="button" aria-label="关闭目录">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav class="sn-nav" id="snNav">
+    <!-- 无 JS 兜底：完整四块目录；有 JS 后由 app.js 换成"当前块目录" -->
+    <a href="#plan" data-block="plan" data-icon="calendar">六日行程</a>
+    <a href="#journal" data-block="plan" data-icon="camera">旅行日志</a>
+    <a href="#pack" data-block="prep" data-icon="backpack">打包清单</a>
+    <a href="#tips" data-block="prep" data-icon="lightbulb">出行锦囊</a>
+    <a href="#budget" data-block="prep" data-icon="wallet">预算估算</a>
+    <a href="#map" data-block="guide" data-icon="map">汴京舆图</a>
+    <a href="#spots" data-block="guide" data-icon="camera">景点全图</a>
+    <a href="#food" data-block="guide" data-icon="utensils">食在汴梁</a>
+    <a href="#shows" data-block="guide" data-icon="ticket-check">演出时刻</a>
+    <a href="#expenses" data-block="money" data-icon="shopping-bag">公摊记账</a>
+  </nav>
+  <p class="sn-foot">三弦闲 & 神神神<br>2026 国庆 · 开封</p>
+</aside>
+<div class="sn-overlay" id="snOverlay" aria-hidden="true"></div>
+
+<main class="wrap" id="main">
+
+  <!-- ═══════════ 行程块 · 壹 六日行程 ═══════════ -->
+  <section class="section" id="plan" data-block="plan" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">1</span>
+      <div><h2>六日行程</h2><p>逐日勾选安排，条目可整档同步到云端；每天附一份备选方案。</p></div>
+    </div>
+    <div class="wx-banner" id="wxBanner" hidden></div>
+    <div id="todayMode"></div>
+    <div class="day-tabs" id="dayTabs" role="tablist"></div>
+    <div id="dayPanels"></div>
+  </section>
+
+  <div class="wave-divider" data-block="plan" aria-hidden="true"><svg viewBox="0 0 680 24"><path d="M0,12 q28,-10 56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+
+  <!-- ═══════════ 行程块 · 拾贰 旅行日志 ═══════════ -->
+  <section class="section" id="journal" data-block="plan" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">2</span>
+      <div><h2>旅行日志</h2><p>每天随手记几句、传几张照片（自动压缩）；回校拼成回顾长卷。</p></div>
+    </div>
+    <div class="journal-grid" id="journalGrid"></div>
+    <div id="jrRetro"></div>
+  </section>
+
+  <!-- ═══════════ 行前块 · 壹 预算估算 ═══════════ -->
+  <section class="section" id="budget" data-block="prep" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">1</span>
+      <div><h2>预算估算</h2><p id="budgetSub">按学生票口径估算 · 点击分类可展开明细。</p></div>
+    </div>
+    <div class="budget-grid" id="budgetGrid"></div>
+    <div class="bud-total" id="budTotal"></div>
+  </section>
+
+  <!-- ═══════════ 行前块 · 贰 打包清单 ═══════════ -->
+  <section class="section" id="pack" data-block="prep" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">2</span>
+      <div><h2>打包清单</h2><p>勾选进度自动保存——出发前全部打勾才算数。</p></div>
+    </div>
+    <div class="pack-progress" aria-hidden="true"><i id="packBar"></i></div>
+    <div class="pack-grid" id="packGrid"></div>
+  </section>
+
+  <!-- ═══════════ 行前块 · 叁 出行锦囊 ═══════════ -->
+  <section class="section" id="tips" data-block="prep" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">3</span>
+      <div><h2>出行锦囊</h2><p>七条实战经验，出发前通读一遍。</p></div>
+    </div>
+    <div class="tips-grid" id="tipsGrid"></div>
+  </section>
+
+  <!-- ═══════════ 攻略块 · 拾壹 汴京舆图 ═══════════ -->
+  <section class="section" id="map" data-block="guide" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">1</span>
+      <div><h2>汴京舆图</h2><p>全部点位一图呈现 · 按天着色 · 实时定位点亮足迹 · 顺路动线自动生成。</p></div>
+    </div>
+    <div class="checkin-bar" id="checkinBar"></div>
+    <div class="map-wrap">
+      <svg id="mapSvg" viewBox="0 0 680 520" role="img" aria-label="汴京景点分布示意图"></svg>
+      <div class="map-pop" id="mapPop"></div>
+    </div>
+    <div class="map-legend" id="mapLegend"></div>
+    <p class="map-note" id="mapNote"></p>
+    <h3 class="sub-h">🧭 顺路动线引擎</h3>
+    <div id="routeList"></div>
+  </section>
+
+  <!-- ═══════════ 攻略块 · 叁 景点全图 ═══════════ -->
+  <section class="section" id="spots" data-block="guide" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">2</span>
+      <div><h2>景点全图</h2><p>10 处 · 同程实时票价与学生价 · 联票策略在下面。</p></div>
+    </div>
+    <div class="spot-filter" id="spotFilter"></div>
+    <div class="spot-grid" id="spotGrid"></div>
+    <h3 class="sub-h">🎫 联票情报站</h3>
+    <div class="linked-grid" id="linkedGrid"></div>
+  </section>
+
+  <div class="wave-divider" data-block="guide" aria-hidden="true"><svg viewBox="0 0 680 24"><path d="M0,12 q28,-10 56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0 t56,0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+
+  <!-- ═══════════ 攻略块 · 肆 食在汴梁 ═══════════ -->
+  <section class="section" id="food" data-block="guide" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">3</span>
+      <div><h2>食在汴梁</h2><p>招牌老字号、夜市三巨头，全配人均价与团购/攻略链接。</p></div>
+    </div>
+    <div class="eat-grid" id="foodGrid"></div>
+    <h3 class="sub-h">🏮 夜市三巨头</h3>
+    <div class="eat-grid" id="marketGrid"></div>
+  </section>
+
+  <!-- ═══════════ 攻略块 · 伍 演出时刻 ═══════════ -->
+  <section class="section" id="shows" data-block="guide" data-reveal>
+    <div class="sec-head">
+      <span class="sec-no">4</span>
+      <div><h2>演出时刻</h2><p>两大园区的王牌剧目与占位心法——演出是开封的灵魂，别只逛建筑。</p></div>
+    </div>
+    <div class="show-grid" id="showGrid"></div>
+    <div id="hanfuBox"></div>
+  </section>
+
+  <!-- ═══════════ 账目块 · 柒 公摊记账本 ═══════════ -->
+  <section class="section" id="expenses" data-block="money" data-reveal>
+    <div class="sec-head">
+      <div><h2>公摊记账本</h2><p>吃 / 行 / 住 / 其他 四类，自动算人均与结算，数据实时存云端服务器。</p></div>
+    </div>
+    <div class="exp-summary" id="expSummary"></div>
+    <div class="exp-wrap">
+      <form class="exp-form" id="expForm">
+        <div class="field">
+          <label for="expName">项目</label>
+          <input id="expName" type="text" maxlength="30" placeholder="例如：鼓楼夜市晚餐" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="expAmount">金额 ¥</label>
+            <input id="expAmount" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+          </div>
+          <div class="field">
+            <label for="expPayer">垫付人</label>
+            <select id="expPayer"><option value="A">菲尔特</option><option value="B">朋友</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label>分类</label>
+          <div class="cat-pick" id="catPick">
+            <button type="button" class="chip chip-cat cat-eat active" data-cat="eat">🍜 吃</button>
+            <button type="button" class="chip chip-cat cat-move" data-cat="move">🚕 行</button>
+            <button type="button" class="chip chip-cat cat-stay" data-cat="stay">🏠 住</button>
+            <button type="button" class="chip chip-cat cat-other" data-cat="other">📦 其他</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="expNote">备注 <small>（其他类请写明用途）</small></label>
+          <input id="expNote" type="text" maxlength="40" placeholder="选填">
+        </div>
+        <button class="btn btn-primary" type="submit" id="expSubmit">记一笔</button>
+      </form>
+      <div>
+        <div class="exp-list" id="expList"></div>
+        <div class="settle-card" id="settleCard"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>汴京秋行 · 为三弦闲 & 神神神定制 · 2026 国庆</span>
+    <span>数据来源：同程旅行实时查询（2026-09-12）· 以 12306 / 景区当日为准</span>
+  </div>
+</footer>
+
+<!-- ═══════════ 底部一级导航：四块 ═══════════ -->
+<nav class="dock" id="dock" aria-label="主分区">
+  <div class="dock-in">
+    <button class="dock-btn" type="button" data-block="prep" aria-pressed="false">
+      <span class="dock-pic" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" fill="#fbeadb"/>
+          <path d="M9.6 14.6h12.8l-1.3 9.6H10.9Z" fill="#e8833a"/>
+          <path d="M12.6 14.6c0-2.9 1.5-4.5 3.4-4.5s3.4 1.6 3.4 4.5" stroke="#c96a22" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M13.5 14.6 12.5 24.2M18.5 14.6 19.5 24.2" stroke="#f9c9a3" stroke-width="1"/>
+        </svg>
+      </span>
+      <span class="dock-label">行前</span>
+    </button>
+    <button class="dock-btn" type="button" data-block="plan" aria-pressed="true">
+      <span class="dock-pic" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" fill="#e5eef6"/>
+          <rect x="10" y="8.8" width="12" height="14.4" rx="1.4" fill="#fffdf6" stroke="#8fb4d4" stroke-width="1"/>
+          <rect x="7.2" y="7.6" width="3.6" height="16.8" rx="1.8" fill="#5a8fbf"/>
+          <rect x="21.2" y="7.6" width="3.6" height="16.8" rx="1.8" fill="#5a8fbf"/>
+          <path d="M13 13h6M13 16.6h6M13 20.2h3.6" stroke="#8fb4d4" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="dock-label">行程</span>
+    </button>
+    <button class="dock-btn" type="button" data-block="guide" aria-pressed="false">
+      <span class="dock-pic" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" fill="#fbeadb"/>
+          <path d="M16 5.6v2.4" stroke="#8a6a4f" stroke-width="1.4" stroke-linecap="round"/>
+          <rect x="13.4" y="8" width="5.2" height="2.2" rx="1" fill="#6b4a2f"/>
+          <ellipse cx="16" cy="17" rx="6.4" ry="6.8" fill="#e85d4a"/>
+          <ellipse cx="16" cy="17" rx="3.6" ry="5" fill="#f0846f" opacity=".75"/>
+          <rect x="13.4" y="23.6" width="5.2" height="2.2" rx="1" fill="#6b4a2f"/>
+          <path d="M16 25.8v2.6" stroke="#e8833a" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="dock-label">攻略</span>
+    </button>
+    <button class="dock-btn" type="button" data-block="money" aria-pressed="false">
+      <span class="dock-pic" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" fill="#eaf1de"/>
+          <rect x="7.2" y="9.6" width="17.6" height="12.8" rx="2" fill="#fffdf6" stroke="#a8c68a" stroke-width="1"/>
+          <path d="M7.2 13.6h17.6M7.2 18.4h17.6" stroke="#d6e3c4" stroke-width="1"/>
+          <circle cx="11.2" cy="11.6" r="1.4" fill="#e8833a"/>
+          <circle cx="16" cy="11.6" r="1.4" fill="#e8833a"/>
+          <circle cx="20.8" cy="11.6" r="1.4" fill="#e8833a"/>
+          <circle cx="11.2" cy="20.4" r="1.4" fill="#6f9557"/>
+          <circle cx="16" cy="20.4" r="1.4" fill="#6f9557"/>
+          <circle cx="20.8" cy="20.4" r="1.4" fill="#6f9557"/>
+        </svg>
+      </span>
+      <span class="dock-label">账目</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════ 拾 · 随身向导（跨场景工具，抽离为悬浮按钮） ═══════════ -->
+<button class="guide-fab" id="guideFab" type="button" aria-label="打开随身向导" aria-expanded="false">
+  <span class="gf-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2"/><path d="M9 13v.01M15 13v.01"/><path d="M9.5 17a3.5 3.5 0 0 0 5 0"/></svg>
+  </span>
+  <span class="gf-text">向导</span>
+</button>
+
+<div class="guide-mask" id="guideMask" aria-hidden="true">
+  <div class="guide-panel" role="dialog" aria-modal="true" aria-label="随身向导">
+    <div class="chat-box">
+      <div class="chat-head">
+        <span class="chat-title"><i data-bot>🤖</i> 汴京小向导</span>
+        <span class="chat-head-ops">
+          <button class="btn btn-ghost btn-sm" id="chatClear" type="button">清空记忆</button>
+          <button class="guide-close" id="guideClose" type="button" aria-label="关闭向导">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </span>
+      </div>
+      <div class="chat-list" id="chatList" aria-live="polite"></div>
+      <div class="chat-preview" id="chatPreview"></div>
+      <div class="chat-inputbar">
+        <input id="chatInput" type="text" maxlength="500" placeholder="问点什么… 例：10.3 下雨行程怎么改？">
+        <input id="chatImgInput" type="file" accept="image/*" hidden>
+        <button class="btn btn-icon btn-sky" id="chatImg" type="button" title="拍照 / 相册 / 文件提问" aria-label="图片提问"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></button>
+        <button class="btn btn-icon btn-sky" id="chatMic" type="button" title="语音提问" aria-label="语音提问"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></button>
+        <button class="btn btn-primary" id="chatSend" type="button" title="发送">发送</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 日志编辑浮层 -->
+<div class="jr-mask" id="jrMask" aria-hidden="true">
+  <div class="jr-panel" role="dialog" aria-modal="true" aria-label="写旅行日志">
+    <div class="chat-head"><span class="chat-title">✍️ 写日志</span>
+      <button class="guide-close" id="jrCancel" type="button" aria-label="关闭">✕</button></div>
+    <div class="jr-form">
+      <label>归属日期</label>
+      <select id="jrDay"></select>
+      <label>今天的话</label>
+      <textarea id="jrText" rows="4" maxlength="800" placeholder="例：王婆说媒排了 50 分钟没上去，但围观比上台好笑。打铁花 18:40 就去占位，第一排火星雨，值。"></textarea>
+      <label>照片（最多 9 张，自动压缩）</label>
+      <input id="jrImgs" type="file" accept="image/*" multiple>
+      <div class="jr-pre" id="jrPre"></div>
+      <button class="btn btn-primary" id="jrSave" type="button">归档这一天</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/data-days.js?v=20260923h"></script>
+<script src="js/data-content.js?v=20260923h"></script>
+<script src="js/data-spotguide.js?v=20260923h"></script>
+<script src="js/data-extra.js?v=20260923h"></script>
+<script src="js/data-map.js?v=20260923h"></script>
+<script src="js/ui.js?v=20260923h"></script>
+<script src="js/md.js?v=20260923h"></script>
+<script src="js/store.js?v=20260923h"></script>
+<script src="js/plan.js?v=20260923h"></script>
+<script src="js/expenses.js?v=20260923h"></script>
+<script src="js/spots2.js?v=20260923h"></script>
+<script src="js/mapview.js?v=20260923h"></script>
+<script src="js/weather.js?v=20260923h"></script>
+<script src="js/journal.js?v=20260923h"></script>
+<script src="js/chat.js?v=20260923h"></script>
+<script src="js/app.js?v=20260923h"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    addEventListener("load", () => navigator.serviceWorker.register("sw.js?v=20260923h").catch(() => { }));
+  }
+</script>
+</body>
+</html>

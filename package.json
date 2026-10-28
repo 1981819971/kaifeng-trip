@@ -1,0 +1,13 @@
+{
+  "name": "kaifeng-trip",
+  "version": "1.0.0",
+  "description": "汴京秋行 · 开封国庆六日攻略（含 AI 随身向导与公摊记账）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {}
+}

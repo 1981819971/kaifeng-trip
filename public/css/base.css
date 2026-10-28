@@ -1,0 +1,98 @@
+/* ============================================================
+   汴京秋行 · 基础层：重置 / 排版 / 焦点 / 降级动效 / 氛围层
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 氛围层：宣纸渐变 + 颗粒 */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(70rem 44rem at 8% -12%, rgba(90, 143, 191, 0.14), transparent 60%),
+    radial-gradient(56rem 40rem at 102% 2%, rgba(232, 131, 58, 0.10), transparent 55%),
+    radial-gradient(50rem 42rem at 50% 118%, rgba(107, 63, 160, 0.06), transparent 60%);
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.25; }
+
+a { color: var(--sky-deep); text-decoration: none; }
+a:hover { color: var(--orange-deep); }
+
+img, svg { display: block; max-width: 100%; }
+
+/* icon() 生成的内联图标：默认 1em 见方，随字号缩放 */
+svg.ic { width: 1.15em; height: 1.15em; flex: none; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: none; }
+
+ul, ol { list-style: none; }
+
+::selection { background: rgba(232, 131, 58, 0.28); }
+
+/* 数字等宽 */
+.num { font-variant-numeric: tabular-nums; font-family: var(--font-num); }
+
+/* 焦点可见性 */
+:focus-visible {
+  outline: 2px solid var(--sky-deep);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-deep);
+  border-radius: 8px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
+/* 滚动触发入场（无 JS 时的兜底：默认可见，JS 挂载后才加 .reveal） */
+.reveal { opacity: 0; transform: translateY(26px); }
+.reveal.in {
+  opacity: 1; transform: none;
+  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+}
+.reveal.d1 { transition-delay: 70ms; }
+.reveal.d2 { transition-delay: 140ms; }
+.reveal.d3 { transition-delay: 210ms; }
+.reveal.d4 { transition-delay: 280ms; }
+
+/* 降级动效 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* 屏幕阅读器 */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

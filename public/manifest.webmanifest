@@ -1,0 +1,15 @@
+{
+  "name": "汴京秋行 · 开封六日攻略",
+  "short_name": "汴京秋行",
+  "description": "三弦闲 & 神神神的开封国庆六日攻略：行程、舆图、抢票作战、公摊记账与 AI 向导",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6ec",
+  "theme_color": "#faf6ec",
+  "lang": "zh-CN",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
