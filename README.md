@@ -2,7 +2,7 @@
 
 2–6 人结伴出行的全链路工具：行程时间轴、抢票倒计时、景点舆图与足迹连线、公摊记账与自动结算、预算估算、随身向导。
 
-线上：https://kaifeng-autumn-trip.app.workbuddy.host/
+**[在线体验](https://kaifeng-autumn-trip.app.workbuddy.host/)** · Node 原生 http · 原生 JavaScript · [MIT](LICENSE)
 
 2026 年国庆开封两人实地出行用过一趟：两天行程、5 处景点、13 笔公摊，全部在这套工具里走完。
 
@@ -51,3 +51,7 @@ node server.js
 
 - `data/` 目录不入库。里面的 `db.json` 是真实出行数据（对话记录、记账明细），只在本机保留。
 - `public/img/` 的景点图片未入库。
+
+## 许可证
+
+MIT，见 [LICENSE](LICENSE)。
